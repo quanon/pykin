@@ -1,0 +1,10 @@
+**.DS_store
+__pycache__
+.python-version
+data/test/*
+data/train/*
+images/*
+log/*
+tmp/*
+urls/*
+!.keep
