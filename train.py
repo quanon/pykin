@@ -41,7 +41,7 @@ def main():
       summary_op = tf.summary.merge_all()
       summary_writer = tf.summary.FileWriter(LOG_DIR, sess.graph)
 
-      for step in range(FLAGS.step_count):
+      for step in range(1, FLAGS.step_count + 1):
         _, loss_value, accuracy_value = sess.run(
           [train_op, loss, accuracy], feed_dict={keep_prob: 0.5})
 
