@@ -1,7 +1,7 @@
 import os
 import tensorflow as tf
 from cnn import CNN
-from config import CLASSES, LOG_DIR
+from config import Channel, LOG_DIR
 from load_data import load_data
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -16,12 +16,12 @@ flags.DEFINE_float('learning_rate', 1e-4, 'Initial learning rate.')
 
 def main():
   with tf.Graph().as_default():
-    cnn = CNN(image_size=FLAGS.image_size, class_count=len(CLASSES))
+    cnn = CNN(image_size=FLAGS.image_size, class_count=len(Channel))
     images, labels = load_data(
       'data/train/data.csv',
       batch_size=FLAGS.batch_size,
       image_size=FLAGS.image_size,
-      class_count=len(CLASSES),
+      class_count=len(Channel),
       shuffle=True)
     keep_prob = tf.placeholder(tf.float32)
 

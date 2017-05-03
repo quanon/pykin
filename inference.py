@@ -3,7 +3,7 @@ import os
 import sys
 import tensorflow as tf
 from cnn import CNN
-from config import CLASSES, LOG_DIR
+from config import Channel, LOG_DIR
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -24,23 +24,23 @@ def load_image(imagepath, image_size):
 
 def print_results(imagepath, softmax):
   os.system(f'imgcat {imagepath}')
-  mex_classname_length = max(len(classname) for classname in CLASSES)
-  for classname, value in zip(CLASSES, softmax):
-    print(f'{classname.ljust(mex_classname_length + 1)}: {value}')
+  mex_channel_name_length = max(len(channel.name) for channel in Channel)
+  for channel, value in zip(Channel, softmax):
+    print(f'{channel.name.ljust(mex_channel_name_length + 1)}: {value}')
 
   print()
 
-  prediction = CLASSES[np.argmax(softmax)]
-  for classname in CLASSES:
-    if classname in imagepath:
-      answer = classname
+  prediction = Channel(np.argmax(softmax)).name
+  for channel in Channel:
+    if channel.name in imagepath:
+      answer = channel.name
       break
 
   print(f'推測: {prediction}, 正解: {answer}')
 
 
 def main(imagepath):
-  cnn = CNN(image_size=FLAGS.image_size, class_count=len(CLASSES))
+  cnn = CNN(image_size=FLAGS.image_size, class_count=len(Channel))
   image = load_image(imagepath, image_size=FLAGS.image_size)
   keep_prob = tf.placeholder(tf.float32)
   logits = cnn.inference(image, keep_prob, softmax=True)
